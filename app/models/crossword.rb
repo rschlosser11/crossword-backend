@@ -1,5 +1,5 @@
 class Crossword < ApplicationRecord
-    after_validation :titlecase_title, on: [:create, :update]
+    after_create :titlecase_title
 
     def make_date 
         Date.strptime(self.date, '%m/%d/%Y')
