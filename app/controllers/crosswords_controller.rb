@@ -22,4 +22,11 @@ class CrosswordsController < ApplicationController
 
         render json: crossword, except: [:created_at, :updated_at]
     end
+
+    def answers
+        cross = Crossword.find(params[:id].to_i);
+        ans = cross.set_answer_boxes;
+
+        render json: ans
+    end
 end
