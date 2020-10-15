@@ -25,7 +25,7 @@ class Crossword < ApplicationRecord
     def set_clue_answer_boxes (num, ans, direction)
         cols = self.cols;
         boxes = [];
-        i = num - 1;
+        i = num;
         if direction == 'across' 
             while boxes.length < ans 
                 boxes << i
@@ -42,16 +42,18 @@ class Crossword < ApplicationRecord
 
     def set_answer_boxes 
         boxes = {};
+        gridnums = self.gridnums
         self.across_clues.each_with_index do |clue, i| 
             len = self.across_ans[i].length;
             num = clue.split('.')[0].to_i;
-            key = "#{num}A"
-            boxes["#{num}A"] = self.set_clue_answer_boxes(num, len, 'across')
+            i = gridnums.index(num);
+            boxes["#{num}A"] = self.set_clue_answer_boxes(i, len, 'across')
         end
         self.down_clues.each_with_index do |clue, i|
             len = self.down_ans[i].length;
             num = clue.split('.')[0].to_i;
-            boxes["#{num}D"] = self.set_clue_answer_boxes(num, len, 'down')
+            i = gridnums.index(num);
+            boxes["#{num}D"] = self.set_clue_answer_boxes(i, len, 'down')
         end
         boxes;
     end
